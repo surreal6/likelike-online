@@ -770,7 +770,7 @@ function IPByName(nick) {
 
 //listen to the port 3000 this powers the whole socket.io
 http.listen(port, function () {
-    console.log("listening on *:3000");
+    console.log("listening on *:" + port);
 });
 
 //check the last activity and disconnect players that have been idle for too long

@@ -1532,6 +1532,16 @@ function scaleCanvas() {
     var container = document.getElementById("canvas-container");
     container.setAttribute("style", "width:" + WIDTH * canvasScale + "px; height: " + HEIGHT * canvasScale + "px");
 
+    // scale iframe to match canvas-container
+    var frame = document.getElementById("iframe");
+    frame.setAttribute("style", "width:" + WIDTH * canvasScale + "px; height: " + HEIGHT * canvasScale + "px");
+
+    // if frame in use, make it active
+    if (me && me.activeLink && me.activeLink !== "") {
+        frame.style.pointerEvents = "inherit";
+        frame.style.opacity = 1;
+    }
+
     var form = document.getElementById("interface");
     form.setAttribute("style", "width:" + WIDTH * canvasScale + "px;");
 
@@ -1975,7 +1985,34 @@ function canvasReleased() {
         if (longText != "" && longText != SETTINGS.INTRO_TEXT) {
 
             if (longTextLink != "")
-                window.open(longTextLink, "_blank");
+                // window.open(longTextLink, "_blank");
+
+                
+                socket.emit("link", longTextLink);
+                me.activeLink = longTextLink;
+
+                var frame = document.getElementById("iframe");
+
+                // NOT WORKING... maybe a timeout inside onload function???
+                // frame.onerror = function() {
+                //     console.log('iframe source error or embed forbidden');
+                //     me.activeLink = "";
+                // }
+
+                // make iframe visible onload
+                frame.onload = function() {
+                    this.style.pointerEvents = "inherit";
+                    this.style.opacity = 1;
+
+                    var exitButton = document.getElementById("exit-frame-button");
+                    exitButton.style.display = 'inherit';
+
+                    var talkForm = document.getElementById("talk-form");
+                    talkForm.style.display = 'none';
+                };
+
+                // load link
+                frame.setAttribute("src", longTextLink);
 
             longText = "";
             longTextLink = "";
@@ -2042,6 +2079,26 @@ function canvasReleased() {
         }
     }
 
+}
+
+function exitFrame() {
+    socket.emit("exitLink", me.activeLink);
+
+    var frame = document.getElementById("iframe");
+    frame.onload = function() {
+        this.style.pointerEvents = "none";
+        this.style.opacity = 0;
+
+        var exitButton = document.getElementById("exit-frame-button");
+        exitButton.style.display = 'none';
+
+        var talkForm = document.getElementById("talk-form");
+        talkForm.style.display = 'inherit';
+
+        me.activeLink = "";
+    };
+    
+    frame.setAttribute("src", "");
 }
 
 //queue a command, move to the point

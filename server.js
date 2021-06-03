@@ -539,6 +539,24 @@ io.on("connection", function (socket) {
         }
     });
 
+    socket.on("link", function (link) {
+        try {
+            fm.appendToFile('./logs/players-log.txt', socket.id + ", link, " + link + ", " + Date.now() + "\n");
+        } catch (e) {
+            console.log("Error on link " + socket.id + "?");
+            console.error(e);
+        }
+    })
+
+    socket.on("exitLink", function (link) {
+        try {
+            fm.appendToFile('./logs/players-log.txt', socket.id + ", exitLink, " + link + ", " + Date.now() + "\n");
+        } catch (e) {
+            console.log("Error on link " + socket.id + "?");
+            console.error(e);
+        }
+    })
+
 });
 
 

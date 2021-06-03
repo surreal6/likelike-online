@@ -181,6 +181,8 @@ module.exports.ROOMS = {
         things: {
             //spreadsheets only 1 row ok?
             harvey: { file: "harvey.png", frames: 2, frameDelay: 10, position: [102, 77], label: "Harvey", command: { cmd: "text", txt: "*You pet the dog*", align: "center", lines: 1, point: [101, 84] } },
+            harvey2: { file: "harvey.png", frames: 2, frameDelay: 10, position: [82, 77], label: "Harvey2", command: { cmd: "action", actionId: 'DogInteract' } },
+            TV: { file: "tv.png", id: "TV", position: [50, 65], frames: 13, frameDelay: 60, visible: false },
             chairs: { file: "likelike-backyard-chairs.png", position: [33, 44] },
             cabinet: {
                 file: "pico-cabinet.png", frames: 2, frameDelay: 10, position: [92, 26], label: "Looping animations?",

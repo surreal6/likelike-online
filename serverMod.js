@@ -571,3 +571,11 @@ module.exports.onTVInteract = function (pId) {
     //send a thing update too ALL clients, changing the client data and telling them to delete and recreate the sprite if they are in the room 
     io.sockets.emit("thingChanged", { thingId: "TV", room: "familyRoom", property: "visible", value: TVState });
 }
+
+module.exports.onDogInteract = function(pId) {
+    var state = !DATA.ROOMS.likelikeBackyard.things.TV.visible;
+    //change the visibility
+    DATA.ROOMS.likelikeBackyard.things.TV.visible = state;
+    //send a thing update too ALL clients, changing the client data and telling them to delete and recreate the sprite if they are in the room 
+    io.sockets.emit("thingChanged", { thingId: "TV", room: "likelikeBackyard", property: "visible", value: state });
+}

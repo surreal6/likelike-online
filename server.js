@@ -138,9 +138,9 @@ io.on("connection", function (socket) {
             if (playerInfo.nickName == "")
                 console.log("New user joined the server in lurking mode " + socket.id + " " + IP);
             else {
-                console.log("New user joined the game: " + playerInfo.nickName + " avatar# " + playerInfo.avatar + " colors# " + playerInfo.colors + " " + socket.id);
+                console.log("New user joined the game: " + playerInfo.nickName.split('|')[0] + " avatar# " + playerInfo.avatar + " colors# " + playerInfo.colors + " " + socket.id);
 
-                let data = [socket.id, 'join', playerInfo.nickName, Date.now(), IP ? IP : '-', '\n'].join(',');
+                let data = [socket.id, 'join', playerInfo.nickName.split('|')[0], Date.now(), IP ? IP : '-', '\n'].join(',');
                 fm.appendToFile('./logs/players-log.txt', data);
             }
 
